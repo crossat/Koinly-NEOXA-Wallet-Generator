@@ -3,7 +3,7 @@ const fs = require('fs');
 
 // Function to fetch data from the URL
 async function fetchData(address) {
-    const url = `https://explorer.neoxa.net/ext/getaddresstxs/${address}/0/50`;
+    const url = `https://explorer.neoxa.net/ext/getaddresstxs/${address}/0/50000`;
     try {
         const response = await axios.get(url);
         return response.data;
@@ -24,7 +24,7 @@ async function processDataAndSaveAsCSV(address) {
             ['Koinly Date', 'Amount', 'Currency', 'Label', 'TxHash'],
             ...data.map(tx => [
                 new Date(tx.timestamp * 1000).toISOString().replace('T', ' ').replace('Z', ' UTC'),
-                tx.sent !== 0 ? -tx.sent : tx.received, // Adjust the amount to be negative if sent is populated
+                tx.sent !== 0 ? tx.sent : -tx.received, // Adjust the amount: sent is positive, received is negative
                 "NEOX",
                 "", // Make the Label column blank
                 tx.txid

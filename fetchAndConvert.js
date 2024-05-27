@@ -24,9 +24,9 @@ async function processDataAndSaveAsCSV(address) {
             ['Koinly Date', 'Amount', 'Currency', 'Label', 'TxHash'],
             ...data.map(tx => [
                 new Date(tx.timestamp * 1000).toISOString().replace('T', ' ').replace('Z', ' UTC'),
-                tx.sent,
+                tx.sent !== 0 ? -tx.sent : tx.received, // Adjust the amount to be negative if sent is populated
                 "NEOX",
-                "mining",
+                "", // Make the Label column blank
                 tx.txid
             ]).map(row => row.join(','))
         ].join('\n');

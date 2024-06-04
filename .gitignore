@@ -1,9 +1,11 @@
 #Folders
 .idea
 node_modules
+.DS_Store
 
 #files
 /addresses.txt
 /output_*.csv
 
 /package-lock.json
+
